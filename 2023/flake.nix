@@ -30,10 +30,11 @@
               modules = [
                 {
                   # https://devenv.sh/reference/options/
-                  packages = [ pkgs.hello ];
+                  packages = [ 
+                    (pkgs.haskell.packages.ghc92.ghc.withPackages (hs: [hs.parsec hs.haskell-language-server]))
+                  ];
 
                   enterShell = ''
-                    hello
                   '';
                 }
               ];
