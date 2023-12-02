@@ -1,0 +1,6 @@
+.devenv
+input
+*.ho
+*.o
+*.hi
+.direnv/
