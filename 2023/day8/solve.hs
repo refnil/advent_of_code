@@ -66,9 +66,16 @@ path start Content {directions, crossroads} =
 finish :: Eq a => a -> [a] -> Bool
 finish e l = last l == e
 
+sortedIntersect :: Ord a => [a] -> [a] -> [a]
+sortedIntersect (a : as) (b : bs) = case compare a b of
+  LT -> sortedIntersect as (b : bs)
+  GT -> sortedIntersect (a : as) bs
+  EQ -> a : sortedIntersect as bs
+sortedIntersect _ _ = []
+
 solve1, solve2 :: Content -> Int
 solve1 = (+ 1) . length . takeWhile (/= "ZZZ") . path "AAA"
-solve2 content = (+ 1) . length . takeWhile (not . all (finish 'Z')) . transpose . map (\s -> path s content) . filter (finish 'A') $ M.keys (crossroads content)
+solve2 content = head . foldr1 sortedIntersect . map (map fst . filter (finish 'Z' . snd) . zip [1 ..] . (`path` content)) . filter (finish 'A') $ M.keys (crossroads content)
 
 main = do
   result <- parseFromFile parserFile "input"
