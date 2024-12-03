@@ -45,13 +45,13 @@ toTokens ss =
 
 eval :: Data -> [Int]
 eval (Mul:OpenParens:(Num a):Comma: (Num b):CloseParens:xs) = a * b: eval xs
-eval (t:ts) =  eval ts
+eval (_:ts) =  eval ts
 eval [] = []
 
 eval2 :: Data -> [Int]
 eval2 (Mul:OpenParens:(Num a):Comma:(Num b):CloseParens:xs) = a * b: eval2 xs
 eval2 (Dont:ts) = eval2Dont ts
-eval2 (t:ts) =  eval2 ts
+eval2 (_:ts) =  eval2 ts
 eval2 [] = []
 
 eval2Dont :: Data -> [Int]
